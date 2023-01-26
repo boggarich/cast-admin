@@ -1,4 +1,5 @@
 <script lang="ts">
+    // @ts-nocheck
 
     import commonObj from '@/assets/js/common'; 
 

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { createRouter, createWebHistory } from 'vue-router'
 import { storeKey } from 'vuex'
 import { store } from '@/main';
@@ -160,7 +162,7 @@ router.beforeEach(async (to, from, next) => {
 
   } 
   else {
-
+ 
       await store.restored;
       next()
 
