@@ -13,7 +13,7 @@ const vuexLocal = new VuexPersistence({
 });
 
 // Create a new store instance.
-const store = createStore({
+export const store = createStore({
     state () {
 
       return {
@@ -45,5 +45,3 @@ app.use(store)
 app.use(router)
 
 app.mount('#app')
-
-export default store;

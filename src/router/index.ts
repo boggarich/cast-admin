@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { storeKey } from 'vuex'
-import { store } from '@/main.js';
+import { store } from '@/main';
 
 import Login from '@/views/auth/Login.vue'
 import DashboardVue from '@/views/Dashboard.vue'
