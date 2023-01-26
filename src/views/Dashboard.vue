@@ -1,5 +1,6 @@
 
 <script lang="ts">
+    // @ts-nocheck
 
     import Datepicker from 'vuejs3-datepicker';
     import $ from "jquery";
