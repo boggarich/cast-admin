@@ -5,6 +5,8 @@
     import DataTablesLib from 'datatables.net-bs5';
     import 'datatables.net-responsive'
 
+    import urls, { bearerToken } from '@/assets/js/apis'
+
     DataTable.use(DataTablesLib)
 
     export default {
@@ -30,6 +32,24 @@
             this.getStatisticsData();
 
             $('#channelsDataTable').dataTable({
+                // ajax: {
+                //     url: urls.getCasters,
+                //     dataSrc: 'channels',
+                //     headers: {
+                //         Authorization: 'Bearer ' + bearerToken
+                //     }
+                // },
+                // columns: [
+                //     { data: 'name' },
+                //     { data: 'userName' },
+                //     { data: null },
+                //     { data: 'oneMonth' },
+                //     { data: 'threeMonth' },
+                //     { data: 'sixMonth' },
+                //     { data: 'oneYear' },
+                //     { data: 'PPV' },
+                //     { data: null }
+                // ],
                 searching: false,
                 lengthChange: false,
                 info: false,

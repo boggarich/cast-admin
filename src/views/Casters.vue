@@ -1,9 +1,14 @@
 <script lang="ts">
-
+    //@ts-ignore
+    
     import $ from "jquery";
     import DataTable from 'datatables.net-vue3';
     import DataTablesLib from 'datatables.net-bs5';
     import 'datatables.net-responsive'
+
+    import { dateFormat, searchDataTable } from '@/assets/js/helpers';
+    import urls, { bearerToken } from '@/assets/js/apis';
+
 
     DataTable.use(DataTablesLib)
 
@@ -11,13 +16,69 @@
 
         mounted() {
 
-            $('#castersDataTable').dataTable({
+            let castersDatatable = $('#castersDataTable').DataTable({
+                
+                ajax: {
+                    url: urls.getCasters,
+                    dataSrc: 'casters',
+                    headers: {
+                        Authorization: 'Bearer ' + bearerToken
+                    }
+                },
+                columns: [
+                    { data: 'created_at' },
+                    { data: 'userName' },
+                    { data: 'phoneNumber' },
+                    { data: 'email' },
+                    { data: 'verified' },
+                    { data: 'token' },
+                    { data: 'id' }
+                ],
+                responsive: true,
                 searching: false,
                 lengthChange: false,
                 info: false,
-                stateSave: true,
                 dom: "<t<'row justify-content-center'p>>",
-                responsive: true
+                columnDefs: [
+                    {
+                        target: 0,
+                        render: function ( data: string | number | Date, type: any, row: any, meta: any ) {
+                            return `${ dateFormat(data) }`;
+                            }
+                    },      
+                    {
+                        target: 4,
+                        render: function ( data: any, type: any, row: any, meta: any  ) {
+                            return `${data ? 'Yes' : 'No'}`;
+                            }
+                    },
+                    {
+                        target: 6,
+                        render: function ( data: any, type: any, row: any, meta: any  ) {
+                            return `<div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                            Actions
+                                            <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
+                                            </svg>
+
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <a class="dropdown-item" href="#">Archive</a>
+                                        </div>
+                                    </div>`;
+                            }
+                    },
+                ],
+                
+            });
+
+            $('#first_name').on('keyup', (evnt: any) => {
+
+                castersDatatable.search( evnt.currentTarget.value );
+
             });
 
         }
@@ -37,10 +98,10 @@
 
                     <div class="content-wrapper wrap d-flex pt-35 pb-35 align-items-center">
                         <h4 class="header-md mb-0 mr-4 pl-12">Search</h4>
-                        <input type="email" class="form-control mr-4 flex-grow-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="First Name">
-                        <input type="email" class="form-control mr-4 flex-grow-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last Name">
-                        <input type="email" class="form-control mr-4 flex-grow-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
-                        <input type="email" class="form-control mr-4 mr-lg-0 flex-grow-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone Number">
+                        <input type="text" class="form-control mr-4 flex-grow-1" id="first_name" aria-describedby="emailHelp" placeholder="First Name">
+                        <input type="text" class="form-control mr-4 flex-grow-1" id="last_name" aria-describedby="emailHelp" placeholder="Last Name">
+                        <input type="text" class="form-control mr-4 flex-grow-1" id="email" aria-describedby="emailHelp" placeholder="Email">
+                        <input type="text" class="form-control mr-4 mr-lg-0 flex-grow-1" id="phone_number" aria-describedby="emailHelp" placeholder="Phone Number">
                     </div>
 
                     <div class="content-wrapper wrap d-flex pb-35 align-items-center pr-3 ">
@@ -147,342 +208,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
 
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>18/08/2022</td>
-                                        <td>Kojo_mills</td>
-                                        <td>+233 59 265 2144</td>
-                                        <td>kojomills@gmail.com</td>
-                                        <td>Yes</td>
-                                        <td>445faddgr342334fd324</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                    Actions
-                                                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M0 0L5 5L10 0H0Z" fill="#323232"/>
-                                                    </svg>
-
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                    <a class="dropdown-item" href="#">Archive</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    
                                 </tbody>
                             </table>
 

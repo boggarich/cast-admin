@@ -25,10 +25,17 @@
 
                         this.$store.commit({
 
-                            type: 'setDashboardData',
+                            type: 'setUserData',
                             data: result
 
                         });
+
+                        this.$store.commit({
+
+                            type: 'setDashboardCounterData',
+                            data: result
+
+                        })
 
                         localStorage.setItem('adminBearerToken', result.data.token);
 

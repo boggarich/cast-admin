@@ -14,22 +14,31 @@ const vuexLocal = new VuexPersistence({
     asyncStorage: true,
 });
 
+//  
+
 // Create a new store instance.
 export const store = createStore({
     state () {
 
       return {
 
-        dashboardData: {}
+        userData: {},
+        dashboardCounterData: {}
 
       }
 
     },
     mutations: {
 
-      setDashboardData (state, payload) {
+      setUserData (state, payload) {
         
-          state.dashboardData = payload.data;
+          state.userData = payload.data.data.user;
+
+      },
+
+      setDashboardCounterData (state, payload) {
+
+          state.dashboardCounterData = payload.data;
 
       }
       

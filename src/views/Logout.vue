@@ -1,3 +1,23 @@
+<script lang="ts">
+    
+    export default {
+
+        methods: {
+
+            logout() {
+
+                localStorage.removeItem('adminBearerToken');
+
+                this.$router.replace('/');
+
+            }
+
+        }
+
+    }
+
+</script>
+
 <template>
     <div class="main-content">
         
@@ -15,7 +35,7 @@
 
                     </button>
                     <div class="dropdown-menu w-100 text-center">
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="#" @click="logout">Logout</a>
                         <a class="dropdown-item" href="#">Cancel</a>
                     </div>
                 </div>

@@ -7,9 +7,7 @@
 
             userData () {
 
-                console.log(this.$store.state.dashboardData.data.user);
-
-                return this.$store.state.dashboardData.data.user;
+                return this.$store.state.userData;
 
             }
 
@@ -18,6 +16,7 @@
 
             
         }
+        
     }
 
 </script>
@@ -450,7 +449,9 @@
 </template>
 
 <style>
+
     header.main {
         background: rgba(68, 11, 125, 0.1);
     }
+
 </style>

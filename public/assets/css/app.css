@@ -8,6 +8,10 @@ body {
     background: #fafafa;
 }
 
+.table-striped tbody tr:nth-of-type(odd) {
+    background: transparent;
+}
+
 .overflow-hidden {
     overflow: hidden !important;
 }

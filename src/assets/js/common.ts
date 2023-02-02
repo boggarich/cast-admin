@@ -14,7 +14,7 @@ class CommonJs {
                 password: self.password
             }
 
-        })
+        });
     
     }
 
